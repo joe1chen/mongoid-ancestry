@@ -24,6 +24,5 @@ Gem::Specification.new do |s|
   ]
 
   s.add_dependency('mongoid', ">= 2.0")
-  s.add_dependency('bson_ext', ">= 1.3")
 end
 
