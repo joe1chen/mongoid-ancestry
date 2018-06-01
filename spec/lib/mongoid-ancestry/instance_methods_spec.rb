@@ -8,10 +8,10 @@ describe MongoidAncestry do
     subject.with_model :depth => 3, :width => 3 do |model, roots|
       roots.each do |lvl0_node, lvl0_children|
         # Ancestors assertions
-        lvl0_node.ancestor_ids.should eql([])
-        lvl0_node.ancestors.to_a.should eql([])
-        lvl0_node.path_ids.should eql([lvl0_node.id])
-        lvl0_node.path.to_a.should eql([lvl0_node])
+        expect(lvl0_node.ancestor_ids).to match_array([])
+        expect(lvl0_node.ancestors.to_a).to match_array([])
+        expect(lvl0_node.path_ids).to match_array([lvl0_node.id])
+        expect(lvl0_node.path.to_a).to match_array([lvl0_node])
         lvl0_node.depth.should eql(0)
         # Parent assertions
         lvl0_node.parent_id.should be_nil
@@ -21,29 +21,29 @@ describe MongoidAncestry do
         lvl0_node.root.should eql(lvl0_node)
         expect(lvl0_node.is_root?).to be_truthy
         # Children assertions
-        lvl0_node.child_ids.should eql(lvl0_children.map(&:first).map(&:id))
-        lvl0_node.children.to_a.should eql(lvl0_children.map(&:first))
+        expect(lvl0_node.child_ids).to match_array(lvl0_children.map(&:first).map(&:id))
+        expect(lvl0_node.children.to_a).to match_array(lvl0_children.map(&:first))
         expect(lvl0_node.has_children?).to be_truthy
         expect(lvl0_node.is_childless?).to be_falsey
         # Siblings assertions
-        lvl0_node.sibling_ids.should eql(roots.map(&:first).map(&:id))
-        lvl0_node.siblings.to_a.should eql(roots.map(&:first))
+        expect(lvl0_node.sibling_ids).to match_array(roots.map(&:first).map(&:id))
+        expect(lvl0_node.siblings.to_a).to match_array(roots.map(&:first))
         expect(lvl0_node.has_siblings?).to be_truthy
         expect(lvl0_node.is_only_child?).to be_falsey
         # Descendants assertions
         descendants = model.all.find_all do |node|
           node.ancestor_ids.include?(lvl0_node.id)
         end
-        lvl0_node.descendant_ids.should eql(descendants.map(&:id))
-        lvl0_node.descendants.to_a.should eql(descendants)
-        lvl0_node.subtree.to_a.should eql([lvl0_node] + descendants)
+        expect(lvl0_node.descendant_ids).to match_array(descendants.map(&:id))
+        expect(lvl0_node.descendants.to_a).to match_array(descendants)
+        expect(lvl0_node.subtree.to_a).to match_array([lvl0_node] + descendants)
 
         lvl0_children.each do |lvl1_node, lvl1_children|
           # Ancestors assertions
-          lvl1_node.ancestor_ids.should eql([lvl0_node.id])
-          lvl1_node.ancestors.to_a.should eql([lvl0_node])
-          lvl1_node.path_ids.should eql([lvl0_node.id, lvl1_node.id])
-          lvl1_node.path.to_a.should eql([lvl0_node, lvl1_node])
+          expect(lvl1_node.ancestor_ids).to match_array([lvl0_node.id])
+          expect(lvl1_node.ancestors.to_a).to match_array([lvl0_node])
+          expect(lvl1_node.path_ids).to match_array([lvl0_node.id, lvl1_node.id])
+          expect(lvl1_node.path.to_a).to match_array([lvl0_node, lvl1_node])
           lvl1_node.depth.should eql(1)
           # Parent assertions
           lvl1_node.parent_id.should eql(lvl0_node.id)
@@ -53,13 +53,13 @@ describe MongoidAncestry do
           lvl1_node.root.should eql(lvl0_node)
           expect(lvl1_node.is_root?).to be_falsey
           # Children assertions
-          lvl1_node.child_ids.should eql(lvl1_children.map(&:first).map(&:id))
-          lvl1_node.children.to_a.should eql(lvl1_children.map(&:first))
+          expect(lvl1_node.child_ids).to match_array(lvl1_children.map(&:first).map(&:id))
+          expect(lvl1_node.children.to_a).to match_array(lvl1_children.map(&:first))
           expect(lvl1_node.has_children?).to be_truthy
           expect(lvl1_node.is_childless?).to be_falsey
           # Siblings assertions
-          lvl1_node.sibling_ids.should eql(lvl0_children.map(&:first).map(&:id))
-          lvl1_node.siblings.to_a.should eql(lvl0_children.map(&:first))
+          expect(lvl1_node.sibling_ids).to match_array(lvl0_children.map(&:first).map(&:id))
+          expect(lvl1_node.siblings.to_a).to match_array(lvl0_children.map(&:first))
           expect(lvl1_node.has_siblings?).to be_truthy
           expect(lvl1_node.is_only_child?).to be_falsey
           # Descendants assertions
@@ -67,16 +67,16 @@ describe MongoidAncestry do
             node.ancestor_ids.include? lvl1_node.id
           end
 
-          lvl1_node.descendant_ids.should eql(descendants.map(&:id))
-          lvl1_node.descendants.to_a.should eql(descendants)
-          lvl1_node.subtree.to_a.should eql([lvl1_node] + descendants)
+          expect(lvl1_node.descendant_ids).to match_array(descendants.map(&:id))
+          expect(lvl1_node.descendants.to_a).to match_array(descendants)
+          expect(lvl1_node.subtree.to_a).to match_array([lvl1_node] + descendants)
 
           lvl1_children.each do |lvl2_node, lvl2_children|
             # Ancestors assertions
-            lvl2_node.ancestor_ids.should eql([lvl0_node.id, lvl1_node.id])
-            lvl2_node.ancestors.to_a.should eql([lvl0_node, lvl1_node])
-            lvl2_node.path_ids.should eql([lvl0_node.id, lvl1_node.id, lvl2_node.id])
-            lvl2_node.path.to_a.should eql([lvl0_node, lvl1_node, lvl2_node])
+            expect(lvl2_node.ancestor_ids).to match_array([lvl0_node.id, lvl1_node.id])
+            expect(lvl2_node.ancestors.to_a).to match_array([lvl0_node, lvl1_node])
+            expect(lvl2_node.path_ids).to match_array([lvl0_node.id, lvl1_node.id, lvl2_node.id])
+            expect(lvl2_node.path.to_a).to match_array([lvl0_node, lvl1_node, lvl2_node])
             lvl2_node.depth.should eql(2)
             # Parent assertions
             lvl2_node.parent_id.should eql(lvl1_node.id)
@@ -86,13 +86,13 @@ describe MongoidAncestry do
             lvl2_node.root.should eql(lvl0_node)
             expect(lvl2_node.is_root?).to be_falsey
             # Children assertions
-            lvl2_node.child_ids.should eql([])
-            lvl2_node.children.to_a.should eql([])
+            expect(lvl2_node.child_ids).to match_array([])
+            expect(lvl2_node.children.to_a).to match_array([])
             expect(lvl2_node.has_children?).to be_falsey
             expect(lvl2_node.is_childless?).to be_truthy
             # Siblings assertions
-            lvl2_node.sibling_ids.should eql(lvl1_children.map(&:first).map(&:id))
-            lvl2_node.siblings.to_a.should eql(lvl1_children.map(&:first))
+            expect(lvl2_node.sibling_ids).to match_array(lvl1_children.map(&:first).map(&:id))
+            expect(lvl2_node.siblings.to_a).to match_array(lvl1_children.map(&:first))
             expect(lvl2_node.has_siblings?).to be_truthy
             expect(lvl2_node.is_only_child?).to be_falsey
             # Descendants assertions

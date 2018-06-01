@@ -112,10 +112,10 @@ describe MongoidAncestry do
         expect([subclass1, subclass2].include?(node.class)).to be_truthy
       end
 
-      node1.descendants.map(&:id).should eql([node2.id, node3.id, node4.id, node5.id])
-      node1.subtree.map(&:id).should eql([node1.id, node2.id, node3.id, node4.id, node5.id])
-      node5.ancestors.map(&:id).should eql([node1.id, node2.id, node3.id, node4.id])
-      node5.path.map(&:id).should eql([node1.id, node2.id, node3.id, node4.id, node5.id])
+      expect(node1.descendants.map(&:id)).to match_array([node2.id, node3.id, node4.id, node5.id])
+      expect(node1.subtree.map(&:id)).to match_array([node1.id, node2.id, node3.id, node4.id, node5.id])
+      expect(node5.ancestors.map(&:id)).to match_array([node1.id, node2.id, node3.id, node4.id])
+      expect(node5.path.map(&:id)).to match_array([node1.id, node2.id, node3.id, node4.id, node5.id])
     end
   end
 

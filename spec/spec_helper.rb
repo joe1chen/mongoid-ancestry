@@ -6,17 +6,22 @@ require 'rspec'
 
 require 'mongoid-ancestry'
 
-Mongoid.load!(File.expand_path('../mongoid.yml', __FILE__), 'test')
-Mongoid.logger = Logger.new('log/test.log')
-Moped.logger = Logger.new('log/test.log')
-Mongoid.logger.level = Logger::DEBUG
-Moped.logger.level = Logger::DEBUG
-
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
+Mongoid.configure do |config|
+  name = "mongoid_ancestry_test"
+  config.respond_to?(:connect_to) ? config.connect_to(name) : config.master = Mongo::Connection.new.db(name)
+end
+
 RSpec.configure do |config|
-  config.after :each do
-    # Drops all collections in the current environment
-    Mongoid::Sessions.default.drop
+  # Clean up the database
+  require 'database_cleaner'
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.orm = 'mongoid'
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.clean
   end
 end

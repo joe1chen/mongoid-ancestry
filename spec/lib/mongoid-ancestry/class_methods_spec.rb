@@ -7,24 +7,24 @@ describe MongoidAncestry do
   it "should have scopes" do
     subject.with_model :depth => 3, :width => 3 do |model, roots|
       # Roots assertion
-      model.roots.all.to_a.should eql(roots.map(&:first))
+      expect(model.roots.all.to_a).to match_array(roots.map(&:first))
 
       model.all.each do |test_node|
         # Assertions for ancestors_of named scope
         model.ancestors_of(test_node).all.should == test_node.ancestors.all
-        model.ancestors_of(test_node.id).all.to_a.should eql(test_node.ancestors.all.to_a)
+        expect(model.ancestors_of(test_node.id).all.to_a).to match_array(test_node.ancestors.all.to_a)
         # Assertions for children_of named scope
-        model.children_of(test_node).all.to_a.should eql(test_node.children.all.to_a)
-        model.children_of(test_node.id).all.to_a.should eql(test_node.children.all.to_a)
+        expect(model.children_of(test_node).all.to_a).to match_array(test_node.children.all.to_a)
+        expect(model.children_of(test_node.id).all.to_a).to match_array(test_node.children.all.to_a)
         # Assertions for descendants_of named scope
         model.descendants_of(test_node).all.should == (test_node.descendants.all)
-        model.descendants_of(test_node.id).all.to_a.should eql(test_node.descendants.all.to_a)
+        expect(model.descendants_of(test_node.id).all.to_a).to match_array(test_node.descendants.all.to_a)
         # Assertions for subtree_of named scope
-        model.subtree_of(test_node).all.to_a.should eql(test_node.subtree.all.to_a)
-        model.subtree_of(test_node.id).all.to_a.should eql(test_node.subtree.all.to_a)
+        expect(model.subtree_of(test_node).all.to_a).to match_array(test_node.subtree.all.to_a)
+        expect(model.subtree_of(test_node.id).all.to_a).to match_array(test_node.subtree.all.to_a)
         # Assertions for siblings_of named scope
-        model.siblings_of(test_node).all.to_a.should eql(test_node.siblings.all.to_a)
-        model.siblings_of(test_node.id).all.to_a.should eql(test_node.siblings.all.to_a)
+        expect(model.siblings_of(test_node).all.to_a).to match_array(test_node.siblings.all.to_a)
+        expect(model.siblings_of(test_node.id).all.to_a).to match_array(test_node.siblings.all.to_a)
       end
     end
   end
