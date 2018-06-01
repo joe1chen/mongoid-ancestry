@@ -80,7 +80,7 @@ describe MongoidAncestry do
       root.destroy
       children.each do |child|
         child.reload
-        child.is_root?.should be_true
+        expect(child.is_root?).to be_truthy
         child.children.size.should eql(3)
       end
     end
@@ -206,11 +206,11 @@ describe MongoidAncestry do
 
   it "should have depth scopes" do
     subject.with_model :depth => 4, :width => 2, :cache_depth => true do |model, roots|
-      model.before_depth(2).all? { |node| node.depth < 2 }.should be_true
-      model.to_depth(2).all?     { |node| node.depth <= 2 }.should be_true
-      model.at_depth(2).all?     { |node| node.depth == 2 }.should be_true
-      model.from_depth(2).all?   { |node| node.depth >= 2 }.should be_true
-      model.after_depth(2).all?  { |node| node.depth > 2 }.should be_true
+      expect(model.before_depth(2).all? { |node| node.depth < 2 }).to be_truthy
+      expect(model.to_depth(2).all?     { |node| node.depth <= 2 }).to be_truthy
+      expect(model.at_depth(2).all?     { |node| node.depth == 2 }).to be_truthy
+      expect(model.from_depth(2).all?   { |node| node.depth >= 2 }).to be_truthy
+      expect(model.after_depth(2).all?  { |node| node.depth > 2 }).to be_truthy
     end
   end
 

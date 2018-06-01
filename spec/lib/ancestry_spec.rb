@@ -36,13 +36,13 @@ describe MongoidAncestry do
 
   it "should have default touchable value" do
     subject.with_model do |model|
-      model.ancestry_touchable.should be_false
+      expect(model.ancestry_touchable).to be_falsey
     end
   end
 
   it "should set touchable value" do
     subject.with_model touchable: true do |model|
-      model.ancestry_touchable.should be_true
+      expect(model.ancestry_touchable).to be_truthy
     end
   end
 
@@ -109,7 +109,7 @@ describe MongoidAncestry do
       node5 = subclass1.create :parent => node4
 
       model.all.each do |node|
-        [subclass1, subclass2].include?(node.class).should be_true
+        expect([subclass1, subclass2].include?(node.class)).to be_truthy
       end
 
       node1.descendants.map(&:id).should eql([node2.id, node3.id, node4.id, node5.id])
