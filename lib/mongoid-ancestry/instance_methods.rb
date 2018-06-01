@@ -243,9 +243,9 @@ module Mongoid
     def is_primary_key_type_bson_objectid?
       major_ver = ::Mongoid::VERSION[0]
       case major_ver
-      when '6', '5'
+      when '6', '5', '4'
         primary_key_type == BSON::ObjectId
-      when '4', '3'
+      when '3'
         primary_key_type == Moped::BSON::ObjectId
       else
         primary_key_type == BSON::ObjectId
@@ -255,9 +255,9 @@ module Mongoid
     def bson_objectid_from_string(key)
       major_ver = ::Mongoid::VERSION[0]
       case major_ver
-      when '6', '5'
+      when '6', '5', '4'
         BSON::ObjectId.from_string(key)
-      when '4', '3'
+      when '3'
         Moped::BSON::ObjectId.from_string(key)
       else
         BSON::ObjectId.from_string(key)
