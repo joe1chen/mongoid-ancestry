@@ -1,7 +1,6 @@
 script: "bundle exec rspec spec"
 rvm:
-  - 1.9.3
-  - ruby-head
+  - 2.3.3
 env:
   - MONGOID_VERSION=3
   - MONGOID_VERSION=4
