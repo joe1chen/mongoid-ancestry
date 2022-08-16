@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
-  s.add_development_dependency "database_cleaner"
+  s.add_development_dependency('database_cleaner-mongoid')
   s.add_runtime_dependency "mongoid"
 end
 

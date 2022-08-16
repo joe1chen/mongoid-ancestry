@@ -1,8 +1,9 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'mongoid'
+require "database_cleaner/mongoid"
 require 'rspec'
+require 'mongoid'
 
 require 'mongoid-ancestry'
 
@@ -13,15 +14,8 @@ Mongoid.configure do |config|
   config.respond_to?(:connect_to) ? config.connect_to(name) : config.master = Mongo::Connection.new.db(name)
 end
 
-RSpec.configure do |config|
-  # Clean up the database
-  require 'database_cleaner'
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.orm = 'mongoid'
-  end
+DatabaseCleaner[:mongoid].strategy = [:deletion]
 
-  config.before(:each) do
-    DatabaseCleaner.clean
-  end
+RSpec.configure do |c|
+  c.before(:each) { DatabaseCleaner.clean }
 end
