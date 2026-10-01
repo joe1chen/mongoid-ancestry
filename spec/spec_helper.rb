@@ -19,3 +19,9 @@ DatabaseCleaner[:mongoid].strategy = [:deletion]
 RSpec.configure do |c|
   c.before(:each) { DatabaseCleaner.clean }
 end
+
+# RSpec 3 with the RSpec 2-era `should` syntax still enabled, so the existing specs run unchanged.
+RSpec.configure do |c|
+  c.expect_with(:rspec) { |e| e.syntax = [:should, :expect] }
+  c.mock_with(:rspec) { |m| m.syntax = [:should, :expect] }
+end

@@ -100,7 +100,7 @@ describe MongoidAncestry do
     subject.with_model :depth => 3, :width => 3 do |model, roots|
       model.orphan_strategy = :restrict
       root = roots.first.first
-      expect { root.destroy }.to raise_error
+      expect { root.destroy }.to raise_error(Mongoid::Ancestry::Error)
       expect { root.children.first.children.first.destroy }.to_not raise_error
     end
   end
@@ -115,7 +115,7 @@ describe MongoidAncestry do
   it "should check detection of invalid format for ancestry field" do
     subject.with_model :width => 3, :depth => 3 do |model, roots|
       roots.first.first.update_attribute model.ancestry_field, 'invalid_ancestry'
-      expect { model.check_ancestry_integrity! }.to raise_error
+      expect { model.check_ancestry_integrity! }.to raise_error(Mongoid::Ancestry::IntegrityError)
       model.check_ancestry_integrity!(:report => :list).size.should eql(1)
     end
   end
@@ -126,7 +126,7 @@ describe MongoidAncestry do
       node.without_ancestry_callbacks do
        node.update_attribute model.ancestry_field, 35
       end
-      expect { model.check_ancestry_integrity! }.to raise_error
+      expect { model.check_ancestry_integrity! }.to raise_error(Mongoid::Ancestry::IntegrityError)
       model.check_ancestry_integrity!(:report => :list).size.should eql(1)
     end
   end
@@ -135,7 +135,7 @@ describe MongoidAncestry do
     subject.with_model :width => 3, :depth => 3 do |model, roots|
       node = roots.first.first
       node.update_attribute model.ancestry_field, node.id
-      expect { model.check_ancestry_integrity! }.to raise_error
+      expect { model.check_ancestry_integrity! }.to raise_error(Mongoid::Ancestry::IntegrityError)
       model.check_ancestry_integrity!(:report => :list).size.should eql(1)
     end
   end
@@ -144,13 +144,13 @@ describe MongoidAncestry do
     subject.with_model do |model|
       model.destroy_all
       model.create!(model.ancestry_field => model.create!(model.ancestry_field => model.create!(model.ancestry_field => nil).id).id)
-      expect { model.check_ancestry_integrity! }.to raise_error
+      expect { model.check_ancestry_integrity! }.to raise_error(Mongoid::Ancestry::IntegrityError)
       model.check_ancestry_integrity!(:report => :list).size.should eql(1)
     end
   end
 
   def assert_integrity_restoration model
-    expect { model.check_ancestry_integrity! }.to raise_error
+    expect { model.check_ancestry_integrity! }.to raise_error(Mongoid::Ancestry::IntegrityError)
     model.restore_ancestry_integrity!
     expect { model.check_ancestry_integrity! }.to_not raise_error
   end
