@@ -9,11 +9,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Stefan Kroes", "Anton Orel"]
   s.email       = ["eagle.anton@gmail.com"]
   s.description = %q{Organise Mongoid model into a tree structure}
-  s.homepage    = "http://github.com/skyeagle/mongoid-ancestry"
+  s.homepage    = "https://github.com/joe1chen/mongoid-ancestry"
   s.summary     = %q{Ancestry allows the records of a Mongoid model to be organised in a tree structure, using a single, intuitively formatted database field. It exposes all the standard tree structure relations (ancestors, parent, root, children, siblings, descendants) and all of them can be fetched in a single query. Additional features are named_scopes, integrity checking, integrity restoration, arrangement of (sub)tree into hashes and different strategies for dealing with orphaned records.}
   s.licenses    = ["MIT"]
-
-  s.rubyforge_project = "mongoid-ancestry"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -24,8 +22,8 @@ Gem::Specification.new do |s|
   ]
 
   s.add_development_dependency "rake"
-  s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec", "~> 3.13"
   s.add_development_dependency('database_cleaner-mongoid')
-  s.add_runtime_dependency "mongoid"
+  s.add_runtime_dependency "mongoid", ">= 7.0", "< 10"
 end
 
