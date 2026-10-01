@@ -298,11 +298,7 @@ describe MongoidAncestry do
   end
 
   def parent_id
-    if Mongoid.mongoid3?
-      'Moped::BSON::ObjectId'
-    else
-      'BSON::ObjectId'
-    end
+    'BSON::ObjectId'
   end
 
 end
