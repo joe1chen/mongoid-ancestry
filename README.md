@@ -33,11 +33,12 @@ The gemspec allows `mongoid >= 7.0, < 10`.
 
 ## Installation
 
-This fork is not published to RubyGems; install it from GitHub:
+This fork is not published to RubyGems; install it from GitHub, pinned to a release tag
+([releases](https://github.com/joe1chen/mongoid-ancestry/releases)):
 
 ```ruby
 # Gemfile
-gem 'mongoid-ancestry', github: 'joe1chen/mongoid-ancestry'
+gem 'mongoid-ancestry', github: 'joe1chen/mongoid-ancestry', tag: 'v0.5.0'
 ```
 
 Then add ancestry to a model:
@@ -237,14 +238,11 @@ To add a combination to CI, add a row to `matrix.include` in `.github/workflows/
 
 ## History
 
-- **0.4.3+ (DOGOnews fork, 2026)** — GitHub Actions matrix up to Ruby 3.4 / Rails 8.0 / Mongoid 9.0 /
-  MongoDB 8.0; mongoid dependency `>= 7.0, < 10`; specs on RSpec 3.13; dead Mongoid 3 (`Moped`) code and Rails 2
-  plugin files removed.
-- **0.4.3 (joe1chen fork, 2012–2022)** — Mongoid 4 `BSON::ObjectId` fix, Mongoid 5–8 support,
-  database_cleaner-mongoid, GitHub Actions.
-- **0.4.x (skyeagle, 2013–2014)** — Mongoid 4 support, `:touchable` option (Timo Sand). **0.3.x** — Mongoid 3. **0.2.x** — Mongoid 2.
-- **Original** — [ancestry](https://github.com/stefankroes/ancestry) for ActiveRecord by Stefan Kroes, ported to
-  Mongoid by Anton Orel.
+Anton Orel's Mongoid port (2011) of Stefan Kroes's [ancestry](https://github.com/stefankroes/ancestry) for
+ActiveRecord was maintained by skyeagle through 0.4.2 (2014: 0.2.x Mongoid 2, 0.3.x Mongoid 3, 0.4.x Mongoid 4 and
+the `:touchable` option) and continued by DOGOnews in this fork: 0.4.3 (2018: Mongoid 4–6 id fixes), then 0.5.0
+(2026: Mongoid 7.0–9.x on current Ruby/Rails/MongoDB, dead Mongoid 3 and Rails 2 code removed).
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## Credits
 
